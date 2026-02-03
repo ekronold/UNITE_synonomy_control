@@ -20,6 +20,8 @@ Method in short: species names from UNITE has been run through the package 'taxi
 
 Some groups within Saccharomycetales has been manually changed as for example Candida was classed as Saccharomycetales_Incertae_sedis while it should according to Index Fungorum be within Serinales -> Debaryomycetaceae -> Candida. Serinales and Saccharomycetales in general has been curated.
 
+Additionally, a check for proper dichotomy in the taxonomy strings has been made and a few instances of Families and Genera with more than one parent has been fixed.
+
 Changed accessions has had a "_c" pasted to the end of the UNITE accession
 
 In total; 6 710 accessions has been updated, 130 278 is unchanged. 
