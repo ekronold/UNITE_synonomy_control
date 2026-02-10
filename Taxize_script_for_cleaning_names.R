@@ -541,3 +541,101 @@ fasta <- bind_rows(fasta_headers, fasta_seq) %>%
 #write.table(fasta, "Concat_UNITE_ITS2_PLANiTS_22.10.2025_for_sintax_UPDATED_SYNONYMS_Feb_2026.fasta", quote = F, row.names = F, col.names = F)
 
 table(df_fungi_updated$Changed)
+
+
+# Further errors identified from application to OTU tables:
+# Some further names are erraneously changed in similar ways to the Candida/Entoloma mismatch
+
+# Some Lycoperdon (basidiomycete) has been renamed Lycagola (myxomycete)
+df_fungi_original <- df_fungi #original UNITE database loaded in the top lines of the script
+
+# Load the updated database for fixing new errors
+df_updated <- read.table("Concat_UNITE_ITS2_PLANiTS_22.10.2025_for_sintax_UPDATED_SYNONYMS_Feb_2026.fasta")
+
+# Reformat the fasta file from the updated names:
+df_split <- as.data.frame(matrix(df_updated$V1, 
+                                 ncol = 2, 
+                                 byrow = TRUE, 
+                                 dimnames = list(NULL, c('Accession', 'Seq'))))
+
+df_split_clean_names <- df_split %>% 
+  separate(Accession, c("Accession", "Taxonomy"), sep = ";tax=k:") %>% 
+  separate(Taxonomy, c("Kingdom", "Phylum" , "Class", "Order", "Family", "Genus", "Species"), 
+           sep = ",[pcofgs]:")
+
+# Filter the accessions that have been updated based on the "_c" added to the Accession number
+df_fungi_updated <- df_split_clean_names %>% filter(grepl("_c", Accession))
+
+# Screen for anything that jumped Kingdom (catches the myxomycetes)
+df_fungi_error <- df_fungi_updated %>% filter(!Kingdom == "Fungi")
+
+# 28 accessions are moved into myxomycetes, check the original taxon string
+original_names <- df_fungi_original %>% filter(Accession %in% df_fungi_error$Accession_orig)
+
+# Remove the erraneous accessions from the updated database and replace with the original ones
+
+df_fixed_filter <- df_split_clean_names %>% 
+  filter(!Accession %in% df_fungi_error$Accession) # 28 rows removed
+
+df_fixed <- bind_rows(df_fixed_filter, original_names) # add the original names back into the database
+
+# Some of the branching is not dichotomous. Check these:
+
+Agardhiella_parents <- df_split_clean_names %>% filter(Genus == "Agardhiella") # problematic. 
+# This is a valid genus in both Metazoa (a mollusc) and in Rhodophyta (red algae). 
+# We are mostly working terrestrially. Remove the algae 
+Aghardiella_remove <- Agardhiella_parents %>% filter(Kingdom == "Metazoa")
+
+Microstoma_parents <- df_split_clean_names %>% filter(Genus == "Microstoma")
+# This is a valid genus for an Acomycete fungi and a fish, remove the fish.
+Microstoma_remove <- Microstoma_parents %>% filter(Kingdom == "Metazoa")
+
+Siphonaria_parents <- df_split_clean_names %>% filter(Genus == "Siphonaria")
+# This is a valid genus for a gastropos and a chytrid fungus. Remove the gastropod
+Siphonaria_remove <- Siphonaria_parents %>% filter(Kingdom == "Metazoa")
+
+# At order level:
+Chytridiales_parents <- df_split_clean_names %>% filter(Order == "Chytridiales")
+unique(Chytridiales_parents$Class)
+# Three parent classes for the order Chytridiales
+# Index Fungorum operates with "Chytridiomycetes". Set this here as well
+df_fixed$Class[df_fixed$Order == "Chytridiales"] <- "Chytridiomycetes"
+
+Accessions_to_remove <- c(Microstoma_remove$Accession, Aghardiella_remove$Accession, Siphonaria_remove$Accession)
+
+df_fixed <- df_fixed %>%  filter(!Accession %in% Accessions_to_remove)
+
+# For tracking and comparing in later taxonomies, attach the accession number to the species annotation
+
+df_fixed$Species <- paste0(df_fixed$Species, "_", df_fixed$Accession)
+df_fixed$Species <- str_replace(df_fixed$Species, ">", "") # remove the ">" symbol
+
+
+# Reformat as fasta:
+df_fixed$Header <- paste0(df_fixed$Accession, 
+                        ";tax=k:", df_fixed$Kingdom,
+                        ",p:", df_fixed$Phylum,
+                        ",c:", df_fixed$Class,
+                        ",o:", df_fixed$Order,
+                        ",f:", df_fixed$Family,
+                        ",g:", df_fixed$Genus,
+                        ",s:", df_fixed$Species)
+
+new_df <- df_fixed
+
+fasta_headers <- new_df %>% 
+  drop_na() %>% 
+  select(Header) %>% 
+  rename(Seq = Header) %>% 
+  add_column(X = seq(1:nrow(na.omit(new_df))))
+fasta_seq <- new_df %>% 
+  drop_na() %>% 
+  select(Seq) %>% 
+  add_column(X = seq(1:nrow(na.omit(new_df))))
+
+fasta <- bind_rows(fasta_headers, fasta_seq) %>% 
+  arrange(X) %>% 
+  select(-X)
+
+#write.table(fasta, "Concat_UNITE_ITS2_PLANiTS_22.10.2025_for_sintax_UPDATED_SYNONYMS_Feb_2026.fasta", quote = F, row.names = F, col.names = F)
+
