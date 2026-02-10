@@ -40,6 +40,6 @@ List of all the OLD_NAME -> NEW_NAME changes from the database. Original accessi
 
 UPDATE 10.Feb.2026:
 
-Some name-changes flagged as erraneous and some non-dichotomour branching fixed due to same names for genera in plants/animals and fungi
+Some name-changes flagged as erraneous and some non-dichotomous branching fixed due to same names for genera in plants/animals and fungi
 
 Files have been updated accordingly
