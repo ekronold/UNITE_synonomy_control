@@ -31,3 +31,10 @@ Taxize_script_for_cleaning_names.R - R script that takes the unscreened fasta fi
 
 
 Name_changed_list.xlsx - List of all the OLD_NAME -> NEW_NAME changes from the database. Original accession numbers are included. 
+
+
+UPDATE 10.Feb.2026:
+
+Some name-changes flagged as erraneous and some non-dichotomour branching fixed due to same names for genera in plants/animals and fungi
+
+Files have been updated accordingly
