@@ -28,10 +28,9 @@ df_other <- df_split_clean_names %>%
   filter(!Kingdom %in% c("Fungi", "Viridiplantae"))
 
 # Set up taxize on a subset of each database 
+# Currently only done for fungi as the other databases (plant and eukaryote) are simply used to remove these sequences from the data
 
 df_fungi_sub <- df_fungi
-
-df_plant_sub <- df_plant[401:600, ]
 
 tax <- df_fungi
 
@@ -156,7 +155,7 @@ qc_candidates <- tax_verified %>%
 
 # Extract the Accessions that had their name changed for review
 
-# Many changes are new epithets int he same Genus, or an updated genus name which may be represented in UNITE in other accessions
+# Many changes are new epithets in the same Genus, or an updated genus name which may be represented in UNITE in other accessions
 
 # Link the changed names to an updated taxonomy:
 
