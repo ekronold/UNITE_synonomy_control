@@ -1,9 +1,15 @@
-## READ ME FOR NAME SYNONYMY SCREENING OF UNITE ##
+# READ ME FOR NAME SYNONYMY SCREENING OF UNITE ##
 
 
 Files: 
 
-"Concat_UNITE_ITS2_PLANiTS_22.10.2025_for_sintax.fasta.zip" 
+### "Concat_UNITE_v2.fasta.zip"  
+Curated ITS2 UNITE database with PLANiTS added as a replacement for UNITE Viridiplanate sequences. Ready for use with the SINTAX taxonomic assignment algorithm
+
+
+#### Method description for curation: 
+
+"Old_database/Concat_UNITE_ITS2_PLANiTS_22.10.2025_for_sintax.fasta.zip" 
 UNITE database combined with PLANiTS database. This has been cut with ITSx to only contain ITS2 barcodes. Additionally we have removed high ranking uncertain accessions with these identities from the original UNITE:
 - Ascomycota_sp
 - Basidiomycota_sp
