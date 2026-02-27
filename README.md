@@ -1,10 +1,10 @@
-# READ ME FOR NAME SYNONYMY SCREENING OF UNITE ##
+## Name synonymy screening of UNITE ##
 
 
 Files: 
 
 ### "Concat_UNITE_v2.fasta.zip"  
-Curated ITS2 UNITE database with PLANiTS added as a replacement for UNITE Viridiplanate sequences. Ready for use with the SINTAX taxonomic assignment algorithm
+Curated ITS2 UNITE database with PLANiTS added as a replacement for UNITE Viridiplantae sequences. Ready for use with the SINTAX taxonomic assignment algorithm
 
 
 #### Method description for curation: 
@@ -46,7 +46,7 @@ List of all the OLD_NAME -> NEW_NAME changes from the database. Original accessi
 
 UPDATE 10.Feb.2026:
 
-Some name-changes flagged as erraneous and some non-dichotomous branching fixed due to same names for genera in plants/animals and fungi
+Some name-changes flagged as erroneous and some non-dichotomous branching fixed due to same names for genera in plants/animals and fungi
 
 Files have been updated accordingly
 
