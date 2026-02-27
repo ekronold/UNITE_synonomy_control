@@ -1,7 +1,7 @@
 ## Name synonymy screening of UNITE ##
 
 
-Files: 
+Primary database file: 
 
 ### "Concat_UNITE_v2.fasta.zip"  
 Curated ITS2 UNITE database with PLANiTS added as a replacement for UNITE Viridiplantae sequences. Ready for use with the SINTAX taxonomic assignment algorithm
